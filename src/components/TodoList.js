@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Todo from './Todo';
 import TodoForm from './TodoForm';
 
 function TodoList() {
+	// const [task, setTask] = useState('');
 	const [todos, setTodos] = useState([]);
+
+	useEffect(() => {
+		if (localStorage.getItem('localTasks')) {
+			const storedList = JSON.parse(localStorage.getItem('localTasks'));
+			setTodos(storedList);
+		}
+	}, []);
 
 	const addTodo = (todo) => {
 		if (!todo.text) {
@@ -11,11 +19,18 @@ function TodoList() {
 			return;
 		}
 
-		const newTodos = [todo, ...todos];
+		const newTodos = [...todos, todo];
 
 		setTodos(newTodos);
-		console.log(...todos, newTodos);
+		console.log(...todos);
+		localStorage.setItem('localTasks', JSON.stringify([...todos, todo]));
 	};
+
+	/* 
+savedTasks = savedTasks.filter((e) => e !== txt); // remove the in-memory element
+localStorage.setItem("tasks", JSON.stringify(savedTasks))
+	
+	*/
 
 	const removeTodo = (id) => {
 		const removedArr = [...todos].filter((todo) => todo.id !== id);
