@@ -26,22 +26,18 @@ function TodoList() {
 		localStorage.setItem('localTasks', JSON.stringify([...todos, todo]));
 	};
 
-	/* 
-savedTasks = savedTasks.filter((e) => e !== txt); // remove the in-memory element
-localStorage.setItem("tasks", JSON.stringify(savedTasks))
-	
-	*/
-
 	const removeTodo = (id) => {
 		const removedArr = [...todos].filter((todo) => todo.id !== id);
 
 		setTodos(removedArr);
+		localStorage.setItem('localTasks', JSON.stringify(removedArr));
 	};
 
 	const clearAll = (id) => {
 		const removedAll = [...todos].filter((todo) => todo.id === id);
 
 		setTodos(removedAll);
+		localStorage.removeItem('localTasks');
 	};
 
 	const completeTodo = (id) => {
